@@ -18,7 +18,7 @@
       import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';
 
       const html = htm.bind(React.createElement)
-      const TOKEN = process.env.TOKEN
+      const TOKEN = 'x'
       const OWNER = 'dombott'
       const REPO = 'statuspage'
 
@@ -48,9 +48,10 @@
                 owner: OWNER,
                 repo: REPO,
                 issue_number,
-                headers: {
-                  Authorization: `Bearer ${TOKEN}`
-                }
+                auth: TOKEN,
+                // headers: {
+                //   Authorization: `Bearer ${TOKEN}`
+                // }
               });
 
               console.log(options);
@@ -94,9 +95,10 @@
                 owner: OWNER,
                 repo: REPO,
                 state: "all",
-                headers: {
-                  Authorization: `Bearer ${TOKEN}`
-                }
+                auth: TOKEN,
+                // headers: {
+                //   Authorization: `Bearer ${TOKEN}`
+                // }
               });
               const res = await fetch(url, options);
               setIssues(await res.json());
@@ -120,7 +122,10 @@
                 title,
                 labels,
                 created_at,
+                updated_at,
+                closed_at,
                 body,
+                state
               }) => html`
                 <div
                   className="incident"
@@ -129,7 +134,7 @@
                 >
                   <h1 className="title">
                     <a href="?${number}">
-                        ${title}
+                        ${title} ${state === 'closed' && " (resolved)"}
                     </a>
                   </h1>
                   ${labels.length > 0 && html`
@@ -152,7 +157,7 @@
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
                   />
-                  <${Updates} issue_number=${number} />
+                  ${/*<${Updates} issue_number=${number} />*/ false}
                 </div>
               `)}
           </div>
