@@ -1,3 +1,5 @@
+See it in action https://dombott.github.io/statuspage
+
 # statuspage
 
 The goal of this project is to display a simple status page that uses github issues as a data store.
