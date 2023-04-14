@@ -24,58 +24,54 @@ a {
   border-bottom: 1px solid #fafafa;
 }
 .header>.title {
-  font-family: 'PT Serif', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.5rem;
   font-weight: normal;
 }
 .header>.description {
-  font-family: 'PT Serif', serif;
+  font-family: 'Roboto', sans-serif;
   color: #9e9e9e;
   font-style: italic;
 }
 
-.posts {}
-.posts>.loading {}
+.incidents {}
+.incidents>.loading {}
 
-.post { font-family: 'PT Serif', serif; }
-.post>.title {
+.incident { font-family: 'Roboto', sans-serif; }
+.incident>.title {
   font-size: 1.75rem;
   line-height: 1;
   color: #000;
 }
 
-.post>.meta {
-  font-size: .75rem;
-  color: #9E9E9E;
-}
-.post>.meta>a { color: #008c9e; }
-
-.post>.categories {
-  font-family: 'PT Serif', serif;
+.incident>.affected {
+  font-family: 'Roboto', sans-serif;
   font-size: .75rem;
   color: #9e9e9e;
 }
-.post>.categories>span {
+.incident>.affected>span {
   font-weight: bold;
 }
 
-.post>.body {
+.incident>.date {
+    font-size: .75rem;
+    color: #9E9E9E;
+  }
+
+.incident>.body {
   font-size: 1rem;
 }
-.post>.body a {
+.incident>.body a {
   color: #008c9e;
 }
 
-.comments {
-  font-size: .9rem;
+.incident>.updates {
+  font-size: 1rem;
 }
-.comments>a {
+.incident>.updates>a {
   color: #008c9e;
 }
-.comments>.comment>.author {
-  font-weight: bold;
-}
-.comments>.comment>.date {
+.incident>.updates>.update>.date {
   font-size: .75rem;
   color: #9E9E9E;
 }

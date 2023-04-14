@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/structure.css">
     <link rel="stylesheet" type="text/css" href="css/typography.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Serif">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 
     <script type="module">
@@ -18,7 +18,9 @@
       import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';
 
       const html = htm.bind(React.createElement)
-      const TOKEN = 'x' //'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'
+      const TOKEN = 'x'
+      const OWNER = 'dombott'
+      const REPO = 'statuspage'
 
       const Header = (props) => {
         return html`
@@ -33,52 +35,40 @@
         `;
       }
 
-      const Comments = (props) => {
+      const Updates = (props) => {
         const [comments, setComments] = React.useState();
         const {
-          search,
-        } = window.location;
+            issue_number,
+        } = props;
 
         React.useEffect(() => {
           async function fetchComments() {
-            const issue_number = search.slice(1);
             if (issue_number && !comments) {
               const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues/:issue_number/comments', {
-                owner: 'dombott',
-                repo: 'statuspage',
+                owner: OWNER,
+                repo: REPO,
                 issue_number,
               });
 
               console.log(options);
               const res = await fetch(url, options);
               setComments(await res.json());
-
-              Prism.highlightAll();
             }
           }
 
           fetchComments();
-        }, [search, comments]);
+        }, [issue_number, comments]);
 
         return html`
-          <div id="comments" className="comments">
-            <h1>Updates</h1>
+          <div id="updates" className="updates">
             ${(comments || [])
               .map(({
                 id,
-                user: {
-                  html_url,
-                  login,
-                },
                 created_at,
                 body,
               }) => html`
-                <div key=${id} className="comment">
-                  <a className="author" href="${html_url}">
-                    ${login}
-                  </a>
+                <div key=${id} className="update">
                   <span className="date">
-                    ${'updated '}
                     ${new Date(created_at).toLocaleDateString()} ${new Date(created_at).toLocaleTimeString()}:
                   </span>
                   <div
@@ -98,8 +88,8 @@
           async function fetchIssues() {
             if (!issues) {
               const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
-                owner: "dombott",
-                repo: "statuspage",
+                owner: OWNER,
+                repo: REPO,
                 state: "all",
                 auth: TOKEN
               });
@@ -116,7 +106,7 @@
         } = window.location;
 
         return html`
-          <div className="posts">
+          <div className="incidents">
             ${(issues || [])
               .filter(({ user }) => user.login === 'dombott')
               .filter(({ number }) => !search || Number(search.slice(1)) === number)
@@ -124,23 +114,21 @@
                 number,
                 title,
                 labels,
-                user,
                 created_at,
-                comments,
                 body,
               }) => html`
                 <div
-                  className="post"
+                  className="incident"
                   id={${number}}
                   key={${number}}
                 >
                   <h1 className="title">
                     <a href="?${number}">
-                        ${new Date(created_at).toLocaleDateString()} ${new Date(created_at).toLocaleTimeString()} - ${title}
+                        ${title}
                     </a>
                   </h1>
                   ${labels.length > 0 && html`
-                    <div className="categories">
+                    <div className="affected">
                       affected:
                       ${labels.map((label) => html`
                         <span
@@ -152,30 +140,18 @@
                       `)}
                     </div>
                   `}
-                  <div className="meta">
-                    <span>reported by </span>
-                    <a href="${user.html_url}">${user.login}</a>
-                    <span>, </span>
-                    ${comments
-                      ? html`
-                        <a href="?${number}">
-                          ${comments} update(s)
-                        </a>
-                      `
-                      : null
-                    }
-                  </div>
-                  ${search && Number(search.slice(1)) === number && html`
+                  <span className="date">
+                    ${new Date(created_at).toLocaleDateString()} ${new Date(created_at).toLocaleTimeString()}:
+                  </span>
                   <div
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
                   />
-                    <${Comments} />
-                  `}
+                  <${Updates} issue_number=${number} />
                 </div>
               `)}
           </div>
-        `
+        `;
       }
 
       ReactDOM.render(
@@ -183,11 +159,11 @@
           <${Header} />
           <${Incidents} />
         `,
-        document.querySelector('#issuance')
+        document.querySelector('#app')
       )
     </script>
   </head>
   <body>
-    <div id="issuance" />
+    <div id="app" />
   </body>
 </html>
