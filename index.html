@@ -18,7 +18,7 @@
       import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';
 
       const html = htm.bind(React.createElement)
-      const TOKEN = 'x'
+      const TOKEN = process.env.TOKEN
       const OWNER = 'dombott'
       const REPO = 'statuspage'
 
@@ -48,6 +48,9 @@
                 owner: OWNER,
                 repo: REPO,
                 issue_number,
+                headers: {
+                  Authorization: `Bearer ${TOKEN}`
+                }
               });
 
               console.log(options);
@@ -91,7 +94,9 @@
                 owner: OWNER,
                 repo: REPO,
                 state: "all",
-                auth: TOKEN
+                headers: {
+                  Authorization: `Bearer ${TOKEN}`
+                }
               });
               const res = await fetch(url, options);
               setIssues(await res.json());
