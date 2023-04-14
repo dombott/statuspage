@@ -22,6 +22,10 @@
       const OWNER = 'dombott'
       const REPO = 'statuspage'
 
+      function formatTimestamp(message, dateTime){
+            return  message + " " + new Date(dateTime).toLocaleDateString() + " " + new Date(dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+      }
+
       const Header = (props) => {
         return html`
           <div className="header">
@@ -134,7 +138,7 @@
                 >
                   <h1 className="title">
                     <a href="?${number}">
-                        ${title} ${state === 'closed' && " (resolved)"}
+                        ${state === 'closed'? "\u2705" : "\u274c"} ${title}
                     </a>
                   </h1>
                   ${labels.length > 0 && html`
@@ -151,7 +155,8 @@
                     </div>
                   `}
                   <span className="date">
-                    ${new Date(created_at).toLocaleDateString()} ${new Date(created_at).toLocaleTimeString()}:
+                    ${formatTimestamp("reported", created_at) + ", "}
+                    ${closed_at === null ? formatTimestamp("last update", updated_at): formatTimestamp("resolved", closed_at)}
                   </span>
                   <div
                     className="body"
