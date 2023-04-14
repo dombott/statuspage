@@ -1,0 +1,193 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Statuspage</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/structure.css">
+    <link rel="stylesheet" type="text/css" href="css/typography.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Serif">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+    <script type="module">
+      import { React, ReactDOM } from 'https://unpkg.com/es-react@16.12.0/dev';
+      import htm from 'https://unpkg.com/htm?module'
+      import { endpoint } from 'https://cdn.skypack.dev/@octokit/endpoint';
+      import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';
+
+      const html = htm.bind(React.createElement)
+      const TOKEN = 'x' //'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'
+
+      const Header = (props) => {
+        return html`
+          <div className="header">
+            <h1 className="title">
+              <a href="index.html"><strong>Statuspage</strong></a>
+            </h1>
+            <p className="description">
+              View incidents and status updates.
+            </p>
+          </div>
+        `;
+      }
+
+      const Comments = (props) => {
+        const [comments, setComments] = React.useState();
+        const {
+          search,
+        } = window.location;
+
+        React.useEffect(() => {
+          async function fetchComments() {
+            const issue_number = search.slice(1);
+            if (issue_number && !comments) {
+              const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues/:issue_number/comments', {
+                owner: 'dombott',
+                repo: 'statuspage',
+                issue_number,
+              });
+
+              console.log(options);
+              const res = await fetch(url, options);
+              setComments(await res.json());
+
+              Prism.highlightAll();
+            }
+          }
+
+          fetchComments();
+        }, [search, comments]);
+
+        return html`
+          <div id="comments" className="comments">
+            <h1>Updates</h1>
+            ${(comments || [])
+              .map(({
+                id,
+                user: {
+                  html_url,
+                  login,
+                },
+                created_at,
+                body,
+              }) => html`
+                <div key=${id} className="comment">
+                  <a className="author" href="${html_url}">
+                    ${login}
+                  </a>
+                  <span className="date">
+                    ${'updated '}
+                    ${new Date(created_at).toLocaleDateString()} ${new Date(created_at).toLocaleTimeString()}:
+                  </span>
+                  <div
+                    className="body"
+                    dangerouslySetInnerHTML="${{ __html: marked(body)}}"
+                  />
+                </div>
+              `)}
+          </div>
+        `;
+      }
+
+      const Incidents = (props) => {
+        const [issues, setIssues] = React.useState();
+
+        React.useEffect(() => {
+          async function fetchIssues() {
+            if (!issues) {
+              const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
+                owner: "dombott",
+                repo: "statuspage",
+                state: "all",
+                auth: TOKEN
+              });
+              const res = await fetch(url, options);
+              setIssues(await res.json());
+            }
+          }
+
+          fetchIssues();
+        }, [issues]);
+
+        const {
+          search,
+        } = window.location;
+
+        return html`
+          <div className="posts">
+            ${(issues || [])
+              .filter(({ user }) => user.login === 'dombott')
+              .filter(({ number }) => !search || Number(search.slice(1)) === number)
+              .map(({
+                number,
+                title,
+                labels,
+                user,
+                created_at,
+                comments,
+                body,
+              }) => html`
+                <div
+                  className="post"
+                  id={${number}}
+                  key={${number}}
+                >
+                  <h1 className="title">
+                    <a href="?${number}">
+                        ${new Date(created_at).toLocaleDateString()} ${new Date(created_at).toLocaleTimeString()} - ${title}
+                    </a>
+                  </h1>
+                  ${labels.length > 0 && html`
+                    <div className="categories">
+                      affected:
+                      ${labels.map((label) => html`
+                        <span
+                          key="${label.id}"
+                          style=${{ color: '#' + label.color, padding: '0 .25em' }}
+                        >
+                          ${label.name}
+                        </span>
+                      `)}
+                    </div>
+                  `}
+                  <div className="meta">
+                    <span>reported by </span>
+                    <a href="${user.html_url}">${user.login}</a>
+                    <span>, </span>
+                    ${comments
+                      ? html`
+                        <a href="?${number}">
+                          ${comments} update(s)
+                        </a>
+                      `
+                      : null
+                    }
+                  </div>
+                  ${search && Number(search.slice(1)) === number && html`
+                  <div
+                    className="body"
+                    dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
+                  />
+                    <${Comments} />
+                  `}
+                </div>
+              `)}
+          </div>
+        `
+      }
+
+      ReactDOM.render(
+        html`
+          <${Header} />
+          <${Incidents} />
+        `,
+        document.querySelector('#issuance')
+      )
+    </script>
+  </head>
+  <body>
+    <div id="issuance" />
+  </body>
+</html>
