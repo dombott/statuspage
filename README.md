@@ -19,3 +19,8 @@ Issues with the label `type/maintenance` are treated as maintenance announcement
 The requests to the GitHub API are not authenticated.
 React apps hosted as a GitHub page have no way to securely store a GitHub PAT.
 This means the standard rate-limit of 60 requests/hour/ip applies.
+
+# How to use this
+
+Fork the repo, change `OWNER` and `REPO` in `src/Github.js`
+Configure GitHub Page to deploy from main branch.
