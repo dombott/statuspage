@@ -75,3 +75,7 @@ a {
   font-size: .75rem;
   color: #9E9E9E;
 }
+
+span.error{
+  color: red;
+}

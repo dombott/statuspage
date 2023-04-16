@@ -1,6 +1,6 @@
 import {Component} from 'https://unpkg.com/es-react@16.12.0/dev';
-import Incidents from "./components/Incidents.js";
-import {html} from './Global.js'
+import Incidents from "./Incidents.js";
+import {html} from './utils.js'
 
 const Header = (props) => {
     return html`

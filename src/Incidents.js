@@ -1,63 +1,62 @@
 import React from 'https://unpkg.com/es-react@16.12.0/dev';
-import { endpoint } from 'https://cdn.skypack.dev/@octokit/endpoint';
 import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';
-import { OWNER, REPO, TOKEN, html } from '../Global.js'
 import Updates from './Updates.js'
-import { FormatTimestamp } from './utils.js';
+import { FormatTimestamp, html } from './utils.js';
+import { ListIssues } from './Github.js';
 
 const TYPE_PREFIX = "type/"
 
 const Incidents = (props) => {
-    const [issues, setIssues] = React.useState();
+  const [issues, setIssues] = React.useState();
+  const [error, setError] = React.useState();
 
-    React.useEffect(() => {
-        async function fetchIssues() {
-            if (!issues) {
-                const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
-                    owner: OWNER,
-                    repo: REPO,
-                    state: "all",
-                    auth: TOKEN,
-                    // headers: {
-                    //     Authorization: `Bearer ${TOKEN}`
-                    // }
-                });
-                const res = await fetch(url, options);
-                setIssues(await res.json());
-            }
-        }
+  React.useEffect(() => {
+    async function fetchIssues() {
+      if (!issues) {
+        await ListIssues()
+          .then((result) => {
+            setIssues(result.data)
+          })
+          .catch((error) => {
+            setError(error)
+          });
+      }
+    }
+    fetchIssues()
+  }, [issues]);
 
-        fetchIssues();
-    }, [issues]);
+  const {
+    search,
+  } = window.location;
 
-    const {
-        search,
-    } = window.location;
-
+  if (error != null) {
     return html`
+      <span class="error">Failed to load incidents, an error occured: ${error}</span>
+    `
+  }
+  return html`
       <div className="incidents">
         ${(issues || [])
-            .filter(({ user }) => user.login === 'dombott')
-            .filter(({ number }) => !search || Number(search.slice(1)) === number)
-            .filter(({ labels }) => labels.filter((lbl) => lbl.name.startsWith(TYPE_PREFIX)).length > 0)
-            .map(({
-                number,
-                title,
-                labels,
-                created_at,
-                closed_at,
-                comments,
-                body,
-                state
-            }) => {
-                const typeLabels = labels.filter((lbl) => lbl.name.startsWith(TYPE_PREFIX));
-                var type = null
-                if (typeLabels.length > 0) {
-                    type = typeLabels[0].name.slice(TYPE_PREFIX.length)
-                }
-                const icon = type === 'maintenance' ? "\u26a0" : state === 'closed' ? "\u2705" : "\u274c"
+      .filter(({ number }) => !search || Number(search.slice(1)) === number)
+      .filter(({ labels }) => labels.filter((lbl) => lbl.name.startsWith(TYPE_PREFIX)).length > 0)
+      .map(({
+        number,
+        title,
+        labels,
+        created_at,
+        closed_at,
+        comments,
+        body,
+        state
+      }) => {
+        const typeLabels = labels.filter((lbl) => lbl.name.startsWith(TYPE_PREFIX));
+        var type = null
+        if (typeLabels.length > 0) {
+          type = typeLabels[0].name.slice(TYPE_PREFIX.length)
+        }
+        const icon = type === 'maintenance' ? "\u26a0" : state === 'closed' ? "\u2705" : "\u274c"
 
-                return html`
+        return html`
             <div
               className="incident"
               id={${number}}
@@ -100,7 +99,7 @@ const Incidents = (props) => {
               `}
             </div>
           `}
-        )}
+      )}
       </div>
     `;
 }
