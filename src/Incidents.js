@@ -34,10 +34,12 @@ const Incidents = (props) => {
       <span class="error">Failed to load incidents, an error occured: ${error}</span>
     `
   }
+  console.log(search.slice(8))
   return html`
       <div className="incidents">
         ${(issues || [])
-      .filter(({ number }) => !search || Number(search.slice(1)) === number)
+      .filter(({ number }) => !search || !search.startsWith("?number=") || Number(search.slice(8)) === number)
+      .filter(({ labels }) => !search || !search.startsWith("?label=") || labels.filter((lbl) => lbl.name === search.slice(7)).length > 0)
       .filter(({ labels }) => labels.filter((lbl) => lbl.name.startsWith(TYPE_PREFIX)).length > 0)
       .map(({
         number,
@@ -63,7 +65,7 @@ const Incidents = (props) => {
               key={${number}}
             >
               <h1 className="title">
-                <a href="?${number}">
+                <a href="?number=${number}">
                    ${icon} ${title}
                 </a>
               </h1>
@@ -71,12 +73,11 @@ const Incidents = (props) => {
                 <div className="affected">
                   affected:
                   ${labels.map((label) => label.name.startsWith("type/") ? "" : html`
-                    <span
-                      key="${label.id}"
-                      style=${{ color: '#' + label.color, padding: '0 .25em' }}
-                    >
-                      ${label.name}
-                    </span>
+                    <a href="?label=${label.name}" class="component" style=${{ "background-color": '#' + label.color }}>
+                      <span key="${label.id}">
+                        ${label.name}
+                      </span>
+                    </a>
                   `)}
                 </div>
               `}
@@ -86,7 +87,7 @@ const Incidents = (props) => {
               </span>
               <br />
               <span className="date">
-                <a href="?${number}">
+                <a href="?number=${number}">
                     ${comments} ${comments == 1 ? "update" : "updates"}
                 </a>
               </span>
@@ -94,7 +95,7 @@ const Incidents = (props) => {
                 className="body"
                 dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">') }}"
               />
-              ${search && Number(search.slice(1)) === number && html`
+              ${search && search.startsWith("?number=") && Number(search.slice(8)) === number && html`
               <${Updates} issue_number=${number} />
               `}
             </div>

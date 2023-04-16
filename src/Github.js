@@ -36,6 +36,7 @@ const octokit = new WithPlugins({
         owner: OWNER,
         repo: REPO,
         state: "all",
+        per_page: 100
     });
   }
 
@@ -43,6 +44,14 @@ const octokit = new WithPlugins({
     return octokit.rest.issues.listComments({
         owner: OWNER,
         repo: REPO,
-        issue_number: issue_number,
+        issue_number: issue_number
+    });
+  }
+
+  export function ListLabels(){
+    return octokit.rest.issues.listLabelsForRepo({
+      owner: OWNER,
+      repo: REPO,
+      per_page: 100
     });
   }

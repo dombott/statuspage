@@ -38,10 +38,19 @@
   
   .header {
     margin-top: 20px;
+  }
+
+  .components {
     margin-bottom: 40px;
   }
-  .header>.title {
-    margin-right: 20px;
+  
+  .components>.component {
+    display: inline-block;
+    padding: 0 15px;
+    margin: 5px 10px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 15px;
   }
   
   .incidents {}
@@ -56,9 +65,14 @@
     display: inline-block;
     margin-right: 16px;
   }
-    
-  .incident>.affected>span {
-    vertical-align: top;
+
+  .incident>.affected>.component {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0 5px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
   }
   
   .incident>.body {

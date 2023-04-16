@@ -1,5 +1,6 @@
 import {Component} from 'https://unpkg.com/es-react@16.12.0/dev';
 import Incidents from "./Incidents.js";
+import Components from "./Components.js";
 import {html} from './utils.js'
 
 const Header = (props) => {
@@ -20,6 +21,7 @@ class App extends Component {
         return (
             html`
                 <${Header} />
+                <${Components} />
                 <${Incidents} />
             `
         );
