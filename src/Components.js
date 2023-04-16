@@ -29,9 +29,9 @@ const Components = (props) => {
   return html`
       <div id="components" className="components">
         ${(components || [])
-      .map((label) => label.name.startsWith("type/") ? "" : html`
-        <a href="?label=${label.name}" class="component" style=${{ "background-color": '#' + label.color }}>
-          <span key="${label.id}">
+      .map((label) => html`
+        <a href="?label=${label.name}" className="component" style=${{ "backgroundColor": '#' + label.color }} key=${label.id}>
+          <span>
             ${label.name}
           </span>
         </a>

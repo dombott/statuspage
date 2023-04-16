@@ -20,9 +20,9 @@ class App extends Component {
     render() {
         return (
             html`
-                <${Header} />
-                <${Components} />
-                <${Incidents} />
+                <${Header} key="header" />
+                <${Components} key="components" />
+                <${Incidents} key="incidents"/>
             `
         );
     }

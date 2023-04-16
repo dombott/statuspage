@@ -34,7 +34,6 @@ const Incidents = (props) => {
       <span class="error">Failed to load incidents, an error occured: ${error}</span>
     `
   }
-  console.log(search.slice(8))
   return html`
       <div className="incidents">
         ${(issues || [])
@@ -62,7 +61,7 @@ const Incidents = (props) => {
             <div
               className="incident"
               id={${number}}
-              key={${number}}
+              key=${number}
             >
               <h1 className="title">
                 <a href="?number=${number}">
@@ -73,8 +72,8 @@ const Incidents = (props) => {
                 <div className="affected">
                   affected:
                   ${labels.map((label) => label.name.startsWith("type/") ? "" : html`
-                    <a href="?label=${label.name}" class="component" style=${{ "background-color": '#' + label.color }}>
-                      <span key="${label.id}">
+                    <a href="?label=${label.name}" className="component" style=${{ "backgroundColor": '#' + label.color }}  key=${label.id}>
+                      <span>
                         ${label.name}
                       </span>
                     </a>
