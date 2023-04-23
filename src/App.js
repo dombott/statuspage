@@ -1,31 +1,27 @@
-import {Component} from 'https://unpkg.com/es-react@16.12.0/dev';
-import Incidents from "./Incidents.js";
-import Components from "./Components.js";
-import {html} from './utils.js'
+import React from 'react';
+import { Link } from "react-router-dom";
+import Container from "./Container"
 
-const Header = (props) => {
-    return html`
-      <div className="header">
-        <h1 className="title">
-          <a href="index.html"><strong>Statuspage</strong></a>
-        </h1>
-        <p className="description">
-          View incidents and status updates.
-        </p>
-      </div>
-    `;
+function Header() {
+  return (
+    <div className="header">
+      <h1 className="title">
+        <Link to="/"><strong>Statuspage</strong></Link>
+      </h1>
+      <p className="description">
+        View incidents and status updates.
+      </p>
+    </div>
+  );
 }
 
-class App extends Component {
-    render() {
-        return (
-            html`
-                <${Header} key="header" />
-                <${Components} key="components" />
-                <${Incidents} key="incidents"/>
-            `
-        );
-    }
+function App() {
+  return (
+    <div>
+      <Header />
+      <Container />
+    </div>
+  );
 }
 
 export default App;

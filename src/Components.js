@@ -1,43 +1,23 @@
-import React from 'https://unpkg.com/es-react@16.12.0/dev';
-import { html } from './utils.js';
-import { ListLabels } from './Github.js';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Components = (props) => {
-  const [components, setComponents] = React.useState();
-  const [error, setError] = React.useState();
+  const {
+    components,
+  } = props;
 
-  React.useEffect(() => {
-    async function fetchComponents() {
-      if (!components) {
-        await ListLabels()
-          .then((result) => {
-            setComponents(result.data)
-          })
-          .catch((error) => {
-            setError(error)
-          });
+  return (
+    <div id="components" className="components">
+      {(components || []).map((label) => {
+        return (
+          <Link to={`?filter=${label.name}`} className="component" style={{ "backgroundColor": '#' + label.color }} key={label.id}>
+            <span>{label.name}</span>
+          </Link>
+        );
+      })
       }
-    }
-    fetchComponents();
-  }, [components]);
-
-  if (error != null) {
-    return html`
-      <span class="error">Failed to load components, an error occured: ${error}</span>
-    `
-  }
-  return html`
-      <div id="components" className="components">
-        ${(components || [])
-      .map((label) => html`
-        <a href="?label=${label.name}" className="component" style=${{ "backgroundColor": '#' + label.color }} key=${label.id}>
-          <span>
-            ${label.name}
-          </span>
-        </a>
-      `)}
-      </div>
-  `
+    </div>
+  );
 }
 
 export default Components;
