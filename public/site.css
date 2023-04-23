@@ -1,0 +1,224 @@
+*
+{
+  margin: 0;
+  padding: 0;
+}
+
+html
+{
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body
+{
+  line-height: 1.5;
+}
+
+p, ul, ol, blockquote
+{
+  margin-bottom: 1rem !important;
+}
+
+blockquote:before
+{
+  position: absolute;
+  content: "\bb";
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: -.5rem;
+  margin-left: -1rem;
+  color: #008c9e;
+}
+
+blockquote
+{
+  color: #9e9e9e;
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+a
+{
+  text-decoration: none;
+  color: inherit;
+}
+
+li
+{
+  margin-left: 3rem;
+}
+
+pre
+{
+  padding: 8px !important;
+  border: 1px solid #efefef !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+}
+
+code
+{
+  padding: 4px;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+pre>code
+{
+  background: transparent;
+}
+
+.header
+{
+  margin-top: 20px;
+  border-bottom: 1px solid #fafafa;
+}
+
+.header>.title
+{
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+.header>.description
+{
+  font-family: 'Roboto', sans-serif;
+  color: #9e9e9e;
+  font-style: italic;
+}
+
+.components
+{
+  margin-bottom: 40px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.components>.component
+{
+  display: inline-block;
+  padding: 0 15px;
+  margin: 5px 10px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+}
+
+.components>.component>span
+{
+  color: white;
+  font-size: 16px;
+}
+
+.incident
+{
+  margin-bottom: 40px;
+  border-bottom: 1px solid #fafafa;
+  font-family: 'Roboto', sans-serif;
+}
+
+.incident>.title
+{
+  display: inline-block;
+  margin-right: 16px;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #000;
+}
+
+.incident>.date
+{
+  font-size: .75rem;
+  color: #9E9E9E;
+}
+
+.incident>.affected
+{
+  font-family: 'Roboto', sans-serif;
+  font-size: .75rem;
+  color: #9e9e9e;
+}
+
+.incident>.affected>.component
+{
+  display: inline-block;
+  padding: 0 10px;
+  margin: 0 5px;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 10px;
+}
+
+.incident>.affected>.component>span
+{
+  font-size: 12px;
+  color: white;
+}
+
+.incident>.body
+{
+  margin-bottom: 10px;
+  padding-top: 10px;
+  font-size: 1rem;
+}
+
+.incident>.body>*:last-child
+{
+  margin-bottom: 1rem;
+}
+
+.incident>.body a
+{
+  color: #008c9e;
+}
+
+.incident>.updates
+{
+  font-size: 1rem;
+}
+
+.incident>.updates *:first-child
+{
+  margin-top: 0 !important;
+}
+
+.incident>.updates *:last-child
+{
+  margin-bottom: 0 !important;
+}
+
+.incident>.updates>.update
+{
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #fafafa;
+}
+
+.incident>.updates>.update>.body
+{
+  margin-top: 8px;
+}
+
+.incident.updates>.update>.body>:first-child
+{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.incident>.updates>a
+{
+  color: #008c9e;
+}
+
+.incident>.updates>.update>.date
+{
+  font-size: .75rem;
+  color: #9E9E9E;
+}
+
+span.error
+{
+  color: red;
+}
