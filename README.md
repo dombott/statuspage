@@ -22,5 +22,7 @@ This means the standard rate-limit of 60 requests/hour/ip applies.
 
 # How to use this
 
-Fork the repo, change `OWNER` and `REPO` in `src/Github.js`
-Configure GitHub Page to deploy from main branch.
+Fork the repo, change `.env` file and set `name` and `homepage` in `package.json` accordingly.
+Run `yarn start` to run locally, run `yarn deploy` to deploy on github pages.
+Configure GitHub Page to deploy from branch `gh-pages`.
+For local dev/debugging using a GitHub PAT token is recommended.
