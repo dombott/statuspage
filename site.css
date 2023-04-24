@@ -132,6 +132,7 @@ pre>code
   height: 30px;
   border-radius: 50%;
   text-align: center;
+  outline: 2px solid black;
 }
 .incident>.dot.maintenance {
   background-color: #fcba03;
@@ -234,6 +235,7 @@ pre>code
   border-radius: 50%;
   text-align: center;
   background-color: lightgray;
+  outline: 2px solid black;
 }
 
 .incident>.updates>.update>.body
