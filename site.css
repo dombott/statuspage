@@ -73,7 +73,12 @@ pre>code
 .header
 {
   margin-top: 20px;
-  border-bottom: 1px solid #fafafa;
+}
+
+.header>.logo{
+  float: left;
+  margin-right: 20px;
+  height: 60px;
 }
 
 .header>.title
@@ -114,9 +119,30 @@ pre>code
 
 .incident
 {
-  margin-bottom: 40px;
+  padding-left: 20px;
+  border-left: 1px solid lightgray;
+  padding-bottom: 20px;
   border-bottom: 1px solid #fafafa;
   font-family: 'Roboto', sans-serif;
+}
+
+.incident>.dot{
+  position: relative;
+  left: -35px;
+  top: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+.incident>.dot.maintenance {
+  background-color: #fcba03;
+}
+.incident>.dot.open{
+  background-color: #c20202;
+}
+.incident>.dot.closed{
+  background-color: #48b30e;
 }
 
 .incident>.title
