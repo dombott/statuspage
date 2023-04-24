@@ -34,7 +34,7 @@ const Incidents = (props) => {
           if (typeLabels.length > 0) {
             type = typeLabels[0].name.slice(TYPE_PREFIX.length)
           }
-          const icon = type === 'maintenance' ? "\u26a0" : state === 'closed' ? "\u2705" : "\u274c"
+          const dotClass = type === 'maintenance' ? type : state
 
           return (
             <div
@@ -42,15 +42,16 @@ const Incidents = (props) => {
               id={number}
               key={number}
             >
+              <div className={"dot " + dotClass} title={dotClass} />
               <h1 className="title">
                 <Link to={`?number=${number}`}>
-                  {icon} {title}
+                  {title} 
                 </Link>
               </h1>
               {labels.length > 0 && (
                 <div className="affected">
                   affected:
-                  {labels.map((label) => label.name.startsWith(TYPE_PREFIX) ? "" : (
+                  {labels.map((label) => (
                     <Link to={`?filter=${label.name}`} className="component" style={{ "backgroundColor": '#' + label.color }} key={label.id}>
                       <span>
                         {label.name}

@@ -15,6 +15,7 @@ const Updates = (props) => {
           body,
         }) => (
           <div key={id} className="update">
+            <div className='dot' />
             <span className="date">
               {formatTimestamp("", created_at)}
             </span>
