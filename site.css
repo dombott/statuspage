@@ -126,10 +126,10 @@ pre>code
 
 .incident>.dot{
   position: relative;
-  left: -35px;
-  top: 30px;
-  width: 30px;
-  height: 30px;
+  left: -34px;
+  top: 26px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   text-align: center;
   outline: 2px solid black;
