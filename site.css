@@ -215,11 +215,27 @@ pre>code
   margin-bottom: 0 !important;
 }
 
+.incident>.updates>a
+{
+  color: #008c9e;
+}
+
 .incident>.updates>.update
 {
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #fafafa;
+}
+
+.incident>.updates>.update>.dot{
+  position: relative;
+  left: -30px;
+  top: 35px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: lightgray;
 }
 
 .incident>.updates>.update>.body
@@ -233,10 +249,6 @@ pre>code
   margin-bottom: 0;
 }
 
-.incident>.updates>a
-{
-  color: #008c9e;
-}
 
 .incident>.updates>.update>.date
 {
