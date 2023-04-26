@@ -17,7 +17,7 @@ const Updates = (props) => {
           <div key={id} className="update">
             <div className='dot' />
             <span className="date">
-              {formatTimestamp("", created_at)}
+              {formatTimestamp(created_at)}
             </span>
             <div
               className="body"

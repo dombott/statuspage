@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ListIssues, ListLabels, ListComments } from './Github.js';
 import Components from "./Components.js";
+import Maintenances from "./Maintenances.js";
 import Incidents from "./Incidents.js";
 
 function Container(props) {
@@ -45,7 +46,6 @@ function Container(props) {
       }
     }
     fetchData()
-    console.log(comments)
   }, [incident_number]);
 
   if (error != null) {
@@ -56,7 +56,8 @@ function Container(props) {
 
   return (
     <div>
-      <Components key="components" components={components} />
+      <Components key="components" components={components} incidents={incidents} />
+      <Maintenances key="maintenances" incidents={incidents} incident_number={incident_number} incident_filter={incident_filter} />
       <Incidents key="incidents" incidents={incidents} incident_number={incident_number} incident_filter={incident_filter} incident_comments={comments.get(incident_number)} />
     </div>
   );
