@@ -26,3 +26,5 @@ Fork the repo, change `.env` file and set `name` and `homepage` in `package.json
 Run `yarn start` to run locally, run `yarn deploy` to deploy on github pages.
 Configure GitHub Page to deploy from branch `gh-pages`.
 For local dev/debugging using a GitHub PAT token is recommended.
+
+To automatically create GitHub issues from prometheus alerts, you can use statuspage together with [updog](https://github.com/dombott/updog)
