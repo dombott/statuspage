@@ -75,6 +75,12 @@ pre>code {
   font-style: italic;
 }
 
+.footer {
+  font-size: .75rem;
+  color: #9e9e9e;
+  float: right;
+}
+
 .components {
   margin-bottom: 40px;
 }
