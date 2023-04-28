@@ -18,11 +18,20 @@ function Header() {
   );
 }
 
+function Footer() {
+  return (
+    <div className='footer'>
+      <p>powered by <b><a href="https://github.com/dombott/statuspage">statuspage</a></b></p>
+    </div>
+  );
+}
+
 function App() {
   return (
     <div>
       <Header />
       <Container />
+      <Footer />
     </div>
   );
 }
