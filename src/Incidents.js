@@ -33,6 +33,8 @@ const Incidents = (props) => {
           body,
           state
         }) => {
+          // remove the updog alert identifier if necessary
+          const cleanTitle = title.split("updog:")[0].trim()
 
           return (
             <div
@@ -46,7 +48,7 @@ const Incidents = (props) => {
               </span>
               <h3 className="title">
                 <Link to={`?number=${number}`}>
-                  {title}
+                  {cleanTitle}
                 </Link>
               </h3>
               {labels.length > 0 && (
